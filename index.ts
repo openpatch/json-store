@@ -9,6 +9,7 @@ const FOLDER_NAME =
   process.env.FOLDER_NAME || path.join(__dirname, "json-store");
 
 const app = express();
+app.use(express.json());
 
 app.use(favicon(path.join(__dirname, "favicon.ico")));
 app.get("/", (req, res) => res.sendFile(`${process.cwd()}/index.html`));
