@@ -1,5 +1,4 @@
 import fs from "fs/promises";
-import cors from "cors";
 import express from "express";
 import { nanoid } from "nanoid";
 import favicon from "serve-favicon";
@@ -8,40 +7,13 @@ import * as path from "path";
 const LOCAL = process.env.NODE_ENV !== "production";
 const FOLDER_NAME =
   process.env.FOLDER_NAME || path.join(__dirname, "json-store");
-const FILE_SIZE_LIMIT = "2MB";
 
 const app = express();
-app.use(express.json({ limit: FILE_SIZE_LIMIT }));
-
-let allowOrigins = [
-  "openpatch.vercel.app",
-  "https://onlineide.openpatch.org",
-  "https://nrw.onlineide.openpatch.org",
-  "https://sqlide.openpatch.org",
-];
-if (!LOCAL) {
-  allowOrigins.push("http://localhost:");
-}
-
-const corsGet = cors();
-const corsPost = cors((req, callback) => {
-  const origin = req.headers.origin;
-  let isGood = false;
-  if (origin) {
-    for (const allowOrigin of allowOrigins) {
-      if (origin.indexOf(allowOrigin) >= 0) {
-        isGood = true;
-        break;
-      }
-    }
-  }
-  callback(null, { origin: isGood });
-});
 
 app.use(favicon(path.join(__dirname, "favicon.ico")));
 app.get("/", (req, res) => res.sendFile(`${process.cwd()}/index.html`));
 
-app.get("/api/v2/:key", corsGet, async (req, res) => {
+app.get("/api/v2/:key", async (req, res) => {
   try {
     const key = req.params.key;
     res.status(200);
@@ -53,7 +25,7 @@ app.get("/api/v2/:key", corsGet, async (req, res) => {
   }
 });
 
-app.post("/api/v2/post/", corsPost, async (req, res) => {
+app.post("/api/v2/post/", async (req, res) => {
   try {
     const id = nanoid();
     const content = req.body;
