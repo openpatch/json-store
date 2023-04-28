@@ -15,9 +15,9 @@ app.use(express.json({ limit: FILE_SIZE_LIMIT }));
 
 let allowOrigins = [
   "openpatch.vercel.app",
-  "https://onlineide.openpatch.com",
-  "https://nrw.onlineide.openpatch.com",
-  "https://sqlide.openpatch.com",
+  "https://onlineide.openpatch.org",
+  "https://nrw.onlineide.openpatch.org",
+  "https://sqlide.openpatch.org",
 ];
 if (!LOCAL) {
   allowOrigins.push("http://localhost:");
