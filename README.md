@@ -12,6 +12,14 @@ yarn fix
 yarn test
 ```
 
+### Production
+
+```
+yarn build
+yarn global add pm2
+pm2 start ecosystem.config.js --env production
+```
+
 ## Protocol
 
 ### POST
