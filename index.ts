@@ -17,6 +17,12 @@ app.get("/", (req, res) => res.sendFile(`${process.cwd()}/index.html`));
 app.get("/api/v2/:key", async (req, res) => {
   try {
     const key = req.params.key;
+
+    // Prevent path traversal attacks
+    if (key.includes("/") || key.includes("\\") || key.includes("..")) {
+      return res.status(400).json({ message: "Invalid key format." });
+    }
+
     const filePath = path.join(FOLDER_NAME, key + ".json");
     const content = await fs.readFile(filePath, "utf-8");
 
@@ -66,6 +72,12 @@ app.post("/api/v2/post/", async (req, res) => {
 app.post("/api/v2/post/:id", async (req, res) => {
   try {
     const id = req.params.id;
+
+    // Prevent path traversal attacks
+    if (id.includes("/") || id.includes("\\") || id.includes("..")) {
+      return res.status(400).json({ message: "Invalid id format." });
+    }
+
     const filePath = path.join(FOLDER_NAME, id + ".json");
     const newContent = req.body;
 
