@@ -25,20 +25,11 @@ app.get("/api/v2/:key", async (req, res) => {
 
     const filePath = path.join(FOLDER_NAME, key + ".json");
     const content = await fs.readFile(filePath, "utf-8");
+    const data = JSON.parse(content);
 
-    let data;
-    try {
-      data = JSON.parse(content);
-    } catch (parseError) {
-      // If not valid JSON, return the raw content
-      res.status(200);
-      res.setHeader("content-type", "application/octet-stream");
-      return res.send(content);
-    }
-
-    // Remove password field if it exists
+    // Replace password with boolean indicating if file is password-protected
     if (data.password) {
-      delete data.password;
+      data.password = true;
     }
 
     res.status(200);

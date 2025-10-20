@@ -103,10 +103,21 @@ https://json.openpatch.org/api/v2/5633286537740288
 
 Example of JSON response. If the id is found it will return the data. Otherwise 404.
 
+For files without password:
+
 ```json
 {
   "data": "1234567890"
 }
 ```
 
-Note: The `password` field is never included in GET responses for security reasons.
+For files with password:
+
+```json
+{
+  "data": "1234567890",
+  "password": true
+}
+```
+
+Note: The `password` field is replaced with a boolean value (`true`) indicating the file is password-protected. The actual password value is never included in GET responses for security reasons.
