@@ -9,7 +9,7 @@ const FOLDER_NAME =
   process.env.FOLDER_NAME || path.join(__dirname, "json-store");
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "100mb" }));
 
 app.use(favicon(path.join(__dirname, "favicon.ico")));
 app.get("/", (req, res) => res.sendFile(`${process.cwd()}/index.html`));
@@ -32,7 +32,7 @@ app.post("/api/v2/post/", async (req, res) => {
     const content = req.body;
     await fs.writeFile(
       path.join(FOLDER_NAME, id + ".json"),
-      JSON.stringify(content)
+      JSON.stringify(content),
     );
 
     res.status(200).json({

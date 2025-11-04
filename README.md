@@ -20,6 +20,10 @@ yarn global add pm2
 pm2 start ecosystem.config.js --env production
 ```
 
+#### Upload limit
+
+The upload limit is set to 100MB. This should probably be handled by an external proxy.
+
 ## Protocol
 
 ### POST
